@@ -1,13 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Route, Switch } from "react-router-dom";
 import Header from './Components/Header/Header';
 import Home from './Pages/Home';
-
-const News = () => (
-  <div>
-    <h2>News</h2>
-  </div>
-);
+import News from './Pages/News';
 
 const Stories = () => (
   <div>
@@ -29,12 +24,29 @@ const Shop = () => (
 );
 
 function App() {
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    // sticky is 35px;
+    if (window.pageYOffset > 30) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
   return (
     <div className="App">
-      <Header/>
+      <Header isSticky={isSticky}/>
       <Switch>
-        <Route exact path="/" component={Home}></Route>
-        <Route path="/News" component={News}></Route>
+        <Route exact path="/" component={() => <Home isSticky={isSticky} />}></Route>
+        <Route path="/News" component={() => <News isSticky={isSticky} />}></Route>
         <Route path="/Stories" component={Stories}></Route>
         <Route path="/Watch" component={Watch}></Route>
         <Route path="/Shop" component={Shop}></Route>

@@ -1,14 +1,24 @@
 import React from "react";
+import styled from 'styled-components';
 import HeroFeature from "../Components/HeroFeature/HeroFeature";
 import NewsHomeSection from "../Components/News/NewsHomeSection/NewsHomeSection";
-import {NewsCard} from '../Components/News/NewsCard/NewsCard';
 
-const Home: React.FC = () => {
+type HomeType = {
+  isSticky: boolean;
+}
+
+const ResponsiveBody = styled.div<{isSticky: boolean;}>`
+  ${({isSticky}) => isSticky && `
+    padding-top: 110px;
+  `}
+`;
+
+const Home: React.FC<HomeType> = ({isSticky}) => {
   return (
-    <div>
+    <ResponsiveBody isSticky={isSticky}>
       <HeroFeature />
       <NewsHomeSection />
-    </div>
+    </ResponsiveBody>
   );
 };
 

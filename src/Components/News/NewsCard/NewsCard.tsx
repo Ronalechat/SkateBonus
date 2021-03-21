@@ -7,7 +7,7 @@ type TagType = {
 };
 
 const TagWrapper = styled.span<{ tagColor: string }>`
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 4px 8px;
   background-color: ${({ tagColor }) => tagColor};
   margin: 2px 4px;
@@ -26,7 +26,17 @@ export type NewsCardType = {
   tags: string[];
   bodyPreview: string;
   imageURL: string;
+  newsURL: string;
 };
+
+const StyledLink = styled.a`
+  color: inherit;
+  text-decoration: inherit;
+  transition: 0.34s ease-in-out;
+  &:hover {
+    color: rgba(237, 67, 55, 0.8);
+  }
+`;
 
 const NewsCardContainer = styled.div`
   padding: 20px;
@@ -37,7 +47,7 @@ const NewsCardContainer = styled.div`
 const NewsCardImage = styled.span<{ imageURL: string }>`
   height: 160px;
   width: 160px;
-  border-radius: 5px;
+  border-radius: 8px;
   flex-shrink: 0;
   background-image: url("${({ imageURL }) => imageURL}");
   background-repeat: no-repeat;
@@ -46,6 +56,7 @@ const NewsCardImage = styled.span<{ imageURL: string }>`
   background-size: cover;
   display: block;
 `;
+
 const NewsCardContents = styled.div`
   margin-left: 16px;
 `;
@@ -73,19 +84,22 @@ const NewsCard: React.FC<NewsCardType> = ({
   tags,
   bodyPreview,
   imageURL,
+  newsURL,
 }) => {
   const displayedTags = tags.map((t) => <Tag key={t} tagName={t} />);
 
   return (
     <div>
-      <NewsCardContainer>
-        <NewsCardImage imageURL={imageURL} />
-        <NewsCardContents>
-          <NewsTitle>{title}</NewsTitle>
-          <NewsTags>{displayedTags}</NewsTags>
-          <BodyPreview>{bodyPreview}</BodyPreview>
-        </NewsCardContents>
-      </NewsCardContainer>
+      <StyledLink href={newsURL}>
+        <NewsCardContainer>
+          <NewsCardImage imageURL={imageURL} />
+          <NewsCardContents>
+            <NewsTitle>{title}</NewsTitle>
+            <NewsTags>{displayedTags}</NewsTags>
+            <BodyPreview>{bodyPreview}</BodyPreview>
+          </NewsCardContents>
+        </NewsCardContainer>
+      </StyledLink>
     </div>
   );
 };
